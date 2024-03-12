@@ -14,7 +14,7 @@
         "url": "https://furiusao.com.ar",
         "thumbnail": "/imgs/furiusaowiki.webp",
         "description": {
-            "es": "Descripción Español",
+            "es": "Manual Oficial para el videojuego argentino MMORPG 2D FúriusAO. Haciendo uso del lenguaje de marcado Markdown, provee de la más rápida customización de las diferentes páginas.",
             "en": "Descripción Inglés"
         },
         "tech": ["React"]
