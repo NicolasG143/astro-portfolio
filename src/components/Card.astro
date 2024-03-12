@@ -13,8 +13,14 @@ interface Experience {
 const { experience } = Astro.props as { experience: Experience };
 ---
 
-<article class="bg-main-950 bg-opacity-80 grid grid-rows-[auto,1fr] rounded-lg pb-2 shadow-2xl">
-  <a href={experience.url} class="relative h-48 opacity-80 hover:opacity-100 transition-opacity">
+<article
+  class="bg-main-950 bg-opacity-80 grid grid-rows-[auto,1fr] rounded-lg pb-2 shadow-2xl"
+>
+  <a
+    href={experience.url}
+    target="_blank"
+    class="relative h-48 opacity-80 hover:opacity-100 transition-opacity"
+  >
     <img
       class="absolute inset-0 object-cover h-full w-full rounded-t-lg"
       src={experience.thumbnail}
@@ -23,7 +29,9 @@ const { experience } = Astro.props as { experience: Experience };
     <div
       class="absolute inset-0 bg-gradient-to-t from-black to-transparent via-black/70"
     >
-      <p class="absolute bottom-0 px-4 py-2 transition-opacity">{experience.name}</p>
+      <p class="absolute bottom-0 px-4 py-2 transition-opacity">
+        {experience.name}
+      </p>
     </div>
   </a>
   <div class="grid grid-rows-[1fr,auto] px-4">
