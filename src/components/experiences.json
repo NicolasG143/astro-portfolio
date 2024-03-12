@@ -1,0 +1,22 @@
+[
+    {
+        "name": "FúriusAO Web",
+        "url": "https://furiusao.com.ar",
+        "thumbnail": "/imgs/furiusao.webp",
+        "description": {
+            "es": "Sitio web completamente funcional del videojuego argentino MMORPG 2D FúriusAO. Cuenta con un increíble Ranking de Usuarios que se nutre mediante una REST API, la cual tambien provee un servicio para registro de cuenta.",
+            "en": "Fully functional website for the Argentinean MMORPG 2D FúriusAO. It features an incredible User Ranking system, which is powered by a REST API that also provides a registration service for user accounts."
+        },
+        "tech": ["React", "Express"]
+    },
+    {
+        "name": "FúriusAO Wiki",
+        "url": "https://furiusao.com.ar",
+        "thumbnail": "/imgs/furiusaowiki.webp",
+        "description": {
+            "es": "Descripción Español",
+            "en": "Descripción Inglés"
+        },
+        "tech": ["React"]
+    }
+]

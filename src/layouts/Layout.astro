@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+}
+
+import "@fontsource/press-start-2p";
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gradient-to-b from-main-900 to-main-800 text-main-300 relative">
+    <slot />
+  </body>
+</html>
+
+<style>
+  body {
+    font-family: "Press Start 2P", system-ui, sans-serif;
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+const links = [
+  { name: "Inicio", href: "#home" },
+  { name: "Experiencia", href: "#experience" },
+];
+---
+
+<!-- Hamburger Menu -->
+<>
+  <label for="hamburger" class="absolute left-4 top-2 z-[9999] 2xl:hidden">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 50 50"
+      width="24px"
+      height="24px"
+      ><path
+        d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 L 0 7.5 z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 L 0 22.5 z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 L 0 37.5 z"
+        fill="currentColor"></path></svg
+    >
+  </label>
+  <input type="checkbox" id="hamburger" class="hidden" />
+  <aside
+    id="navigation"
+    class="grid grid-rows-[auto,1fr,auto] h-[100dvh] fixed px-4 py-2 bg-main-950 text-sm z-[40] transition 2xl:!translate-x-0"
+  >
+    <header class="h-12"></header>
+    <nav>
+      <ul class="flex flex-col gap-4">
+        {
+          links.map((link) => (
+            <li class="flex">
+              <a
+                class="bg-main-800 hover:bg-main-700 transition-colors hover:text-main-50 flex-1 px-4 py-2 rounded"
+                href={link.href}
+              >
+                {link.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <footer class="text-center flex justify-center">
+      Nicolas Giménez - {new Date().getFullYear()}
+    </footer>
+  </aside>
+</>
+
+<style>
+  #hamburger:checked + #navigation {
+    transform: translateX(-100%);
+  }
+</style>
