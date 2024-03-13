@@ -19,14 +19,15 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body
-    class="bg-gradient-to-b from-main-900 to-main-800 text-main-300 relative min-h-[100dvh]"
+    class="bg-gradient-to-b from-main-900 to-main-800 text-main-300 relative min-h-[100dvh] overflow-y-scroll"
   >
     <slot />
   </body>
 </html>
 
 <style>
-  body {
+  html {
     font-family: "Press Start 2P", system-ui, sans-serif;
+    scroll-timeline: --scrolltime block;
   }
 </style>
