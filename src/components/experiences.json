@@ -1,5 +1,15 @@
 [
     {
+        "name": "Verga Hnos. Web",
+        "url": "https://vergahnos.com.ar",
+        "thumbnail": "/imgs/vergahnos.webp",
+        "description": {
+            "es": "Rediseño completo de la página web de Verga Hnos. Incluye animación de entrada, formularios para los distintos tipos de mudanzas/guardamuebles, modales que facilitan la lectura de ciertos contenidos, carouseles de imágenes e información, galería de imágenes y más.",
+            "en": "Complete redesign of the Verga Hnos. website. Includes animation of entry, forms for different types of movings/furniture repositories, modals that facilitate the reading of certain contents, carousels of imges and information, image gallery and more."
+        },
+        "tech": ["Next", "TailwindCSS"]
+    },
+    {
         "name": "FúriusAO Web",
         "url": "https://furiusao.com.ar",
         "thumbnail": "/imgs/furiusao.webp",
@@ -15,7 +25,7 @@
         "thumbnail": "/imgs/furiusaowiki.webp",
         "description": {
             "es": "Manual Oficial para el videojuego argentino MMORPG 2D FúriusAO. Haciendo uso del lenguaje de marcado Markdown, provee de la más rápida customización de las diferentes páginas.",
-            "en": "Descripción Inglés"
+            "en": "Official manual for the Argentinean MMORPG 2D FúriusAO. Using the Markdown language, provides the fastest customization of the different pages."
         },
         "tech": ["React"]
     }
