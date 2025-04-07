@@ -1,11 +1,21 @@
 [
     {
+        "name": "Logistica Almagro Web",
+        "url": "https://vergahnos.com.ar",
+        "thumbnail": "/imgs/vergahnos.webp",
+        "description": {
+            "es": "Rediseño completo de la página web de Logística Almagro. Incluye animación de entrada, animaciones a medida que el usuario se mueve por la página, marquee de reseñas, formulario de contacto y transiciones entre páginas.",
+            "en": "Complete redesign of the Logística Almagro website. Includes entry animation, animations as the user moves through the page, marquee of reviews, contact form and transitions between pages."
+        },
+        "tech": ["Astro", "TailwindCSS"]
+    },
+    {
         "name": "Verga Hnos. Web",
         "url": "https://vergahnos.com.ar",
         "thumbnail": "/imgs/vergahnos.webp",
         "description": {
             "es": "Rediseño completo de la página web de Verga Hnos. Incluye animación de entrada, formularios para los distintos tipos de mudanzas/guardamuebles, modales que facilitan la lectura de ciertos contenidos, carouseles de imágenes e información, galería de imágenes y más.",
-            "en": "Complete redesign of the Verga Hnos. website. Includes animation of entry, forms for different types of movings/furniture repositories, modals that facilitate the reading of certain contents, carousels of imges and information, image gallery and more."
+            "en": "Complete redesign of the Verga Hnos. website. Includes entry animation, forms for different types of movings/furniture repositories, modals that facilitate the reading of certain contents, carousels of imges and information, image gallery and more."
         },
         "tech": ["Next", "TailwindCSS"]
     },
