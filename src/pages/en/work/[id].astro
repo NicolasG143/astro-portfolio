@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import JobPage from '../../../views/JobPage.astro';
+import { jobStaticPaths } from '../../../data/content';
+
+export const getStaticPaths = (() => jobStaticPaths('en')) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const props = Astro.props as Props;
+---
+
+<JobPage {...props} />

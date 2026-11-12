@@ -1,0 +1,33 @@
+---
+import { toLang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  value: string;
+  /** Unique per page: id of the live region that announces the result. */
+  statusId: string;
+  label?: string;
+  dot?: boolean;
+  class?: string;
+}
+
+const { value, statusId, label, dot = false, class: className } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
+---
+
+<button
+  type="button"
+  class:list={['btn', className]}
+  data-copy={value}
+  data-status={statusId}
+  data-copied={t('copy.done')}
+  data-failed={t('copy.failed')}
+  data-failed-long={t('copy.failedLong')}
+>
+  {dot && <span class="size-2 rounded-full bg-accent" aria-hidden="true" />}
+  <span data-copy-label>{label ?? t('copy.label')}</span>
+</button>
+<span id={statusId} class="sr-only" aria-live="polite"></span>
+
+<script>
+  import '../scripts/copy';
+</script>

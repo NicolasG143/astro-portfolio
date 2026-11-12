@@ -1,0 +1,31 @@
+---
+import { getProfile } from '../data/profile';
+import { toLang, useTranslations } from '../i18n/ui';
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const profile = getProfile(lang);
+---
+
+<section id="sobre-mi" class="wrap scroll-mt-24 pt-28" aria-labelledby="sobre-mi-title">
+  <h2 id="sobre-mi-title" class="text-muted">{t('about.title')}</h2>
+  <p class="display display-sentence mt-6 max-w-[24ch] text-[clamp(2.25rem,5.5vw,5rem)] text-balance">
+    {t('about.statement')}
+  </p>
+
+  <div class="mt-16 grid gap-14 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+    <div class="max-w-[58ch] space-y-4 text-lg leading-relaxed">
+      <p>{t('about.p1')}</p>
+      <p>{t('about.p2')}</p>
+    </div>
+
+    <dl class="border-t border-line lg:border-t-0">
+      {profile.skills.map((skill) => (
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-[10rem_minmax(0,1fr)] lg:first:pt-0">
+          <dt class="text-muted">{skill.group}</dt>
+          <dd class="text-lg">{skill.items.join(', ')}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

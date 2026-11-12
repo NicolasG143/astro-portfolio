@@ -1,33 +1,72 @@
 ---
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import '@fontsource-variable/instrument-sans';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { defaultLang, langs, toLang, useTranslations, type Lang } from '../i18n/ui';
+
 interface Props {
   title: string;
+  description: string;
+  /** The same page in every locale, used for hreflang and the language switcher. */
+  alternates: Record<Lang, string>;
 }
 
-import "@fontsource/press-start-2p";
-
-const { title } = Astro.props;
+const { title, description, alternates } = Astro.props;
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const site = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname, site);
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Desarrollador FullStack" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/jpeg" href="/imgs/logo.jpg" />
-    <meta name="generator" content={Astro.generator} />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(alternates[l], site)} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_AR' : 'en_US'} />
+    <meta name="theme-color" content="#f4f2f8" />
+    <script is:inline>
+      (() => {
+        const apply = () => {
+          let theme = null;
+          try {
+            theme = localStorage.getItem('theme');
+          } catch {}
+          if (theme !== 'light' && theme !== 'dark') {
+            theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.dataset.theme = theme;
+        };
+        apply();
+        document.addEventListener('astro:after-swap', apply);
+      })();
+    </script>
+    <ClientRouter />
   </head>
-  <body
-    class="bg-gradient-to-b from-main-900 to-main-800 text-main-300 relative min-h-screen overflow-y-scroll"
-  >
-    <slot />
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+    >
+      {t('skip')}
+    </a>
+    <Header alternates={alternates} />
+    <main id="contenido" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
-
-<style>
-  html {
-    font-family: "Press Start 2P", system-ui, sans-serif;
-    scroll-timeline: --scrolltime block;
-  }
-</style>

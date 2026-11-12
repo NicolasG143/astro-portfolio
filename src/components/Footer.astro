@@ -1,0 +1,61 @@
+---
+import { getProfile } from '../data/profile';
+import { homePath, toLang, useTranslations } from '../i18n/ui';
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const profile = getProfile(lang);
+---
+
+<footer class="mt-28 overflow-hidden border-t border-line" data-footer>
+  <div class="wrap flex flex-col gap-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-muted">{profile.name}, {profile.location}.</p>
+    <ul class="flex gap-6">
+      <li><a href={homePath(lang, '#trabajos')} class="hover:text-muted">{t('nav.work')}</a></li>
+      <li><a href={homePath(lang, '#sobre-mi')} class="hover:text-muted">{t('nav.about')}</a></li>
+      {profile.social.map((s) => (
+        <li><a href={s.url} target="_blank" rel="noopener noreferrer" class="hover:text-muted">{s.label}</a></li>
+      ))}
+    </ul>
+  </div>
+  <p
+    class="wordmark display -mb-[0.16em] text-center text-[clamp(7rem,37vw,34rem)] leading-[0.8] select-none"
+    aria-hidden="true"
+    data-wordmark
+  >
+    tuty
+  </p>
+</footer>
+
+<style>
+  .wordmark {
+    font-stretch: var(--stretch, 80%);
+    font-weight: var(--weight, 750);
+    transition:
+      font-stretch 0.35s ease-out,
+      font-weight 0.35s ease-out;
+  }
+</style>
+
+<script>
+  // The wordmark stretches and gains weight as the pointer moves across it.
+  const setup = () => {
+    const mark = document.querySelector<HTMLElement>('[data-wordmark]');
+    if (!mark || mark.dataset.ready) return;
+    mark.dataset.ready = 'true';
+    if (!matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) return;
+
+    const footer = mark.closest<HTMLElement>('[data-footer]');
+    footer?.addEventListener('pointermove', (event) => {
+      const t = Math.min(Math.max(event.clientX / window.innerWidth, 0), 1);
+      mark.style.setProperty('--stretch', `${75 + t * 25}%`);
+      mark.style.setProperty('--weight', `${300 + t * 500}`);
+    });
+    footer?.addEventListener('pointerleave', () => {
+      mark.style.removeProperty('--stretch');
+      mark.style.removeProperty('--weight');
+    });
+  };
+
+  document.addEventListener('astro:page-load', setup);
+</script>

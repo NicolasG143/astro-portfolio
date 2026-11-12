@@ -1,18 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
-import Hero from "../components/Hero.astro";
-import Projects from "../components/Projects.astro";
-import Floating from "../components/Floating.astro";
+import HomePage from '../views/HomePage.astro';
 ---
 
-<Layout title="Desarrollo Web en Buenos Aires - Nicolás Giménez">
-  <Navbar />
-  <main
-    class="flex flex-col items-center justify-center mx-auto max-w-[960px] px-4"
-  >
-    <Hero />
-    <Projects />
-  </main>
-  <Floating />
-</Layout>
+<HomePage />

@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Neutrals carry a faint violet tint so they sit with the accent. Text on the accent is always dark:
+   white on #9662d5 is ~4.2:1, below AA for body-size text. */
+:root {
+  --paper: #f4f2f8;
+  --surface: #ffffff;
+  --ink: #120d1d;
+  --muted: #5d566e;
+  --line: #dbd5e6;
+  --accent: #9662d5;
+  --on-accent: #120d1d;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: #0b0812;
+  --surface: #17121f;
+  --ink: #f4f2f8;
+  --muted: #a49cb5;
+  --line: #2c2639;
+  --accent: #a679e0;
+  --on-accent: #0b0812;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    /* Reserve the scrollbar's space so locking scroll (open mobile menu) doesn't shift the layout. */
+    scrollbar-gutter: stable;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--paper);
+    min-height: 100dvh;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* A utility (not a component class) so it accepts variants such as md:wrap. */
+@utility wrap {
+  width: min(100% - 2rem, 88rem);
+  margin-inline: auto;
+}
+
+@layer components {
+  /* Display type: condensed, heavy, tight. The variable width axis is what gives the site its voice. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 80%;
+    letter-spacing: -0.035em;
+    line-height: 0.86;
+  }
+
+  /* Display type set as a sentence: tight condensed leading only suits one or two words. */
+  .display-sentence {
+    font-stretch: 90%;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--ink);
+    padding: 0.55rem 1.15rem;
+    font-weight: 500;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn-solid {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn-solid:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
+
+  .link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .link:hover {
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+  }
+
+  .prose {
+    max-width: 66ch;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .prose h2 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    font-stretch: 85%;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-top: 3rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .prose p + p {
+    margin-top: 1rem;
+  }
+
+  .prose ul {
+    border-top: 1px solid var(--line);
+    margin-top: 0.75rem;
+  }
+
+  .prose li {
+    border-bottom: 1px solid var(--line);
+    padding-block: 0.9rem;
+  }
+
+  .prose strong {
+    font-weight: 650;
+  }
+}

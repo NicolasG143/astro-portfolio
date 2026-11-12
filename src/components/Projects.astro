@@ -1,11 +1,54 @@
 ---
-import experiences from "./experiences.json";
-import Card from "./Card.astro";
+import type { CollectionEntry } from 'astro:content';
+import { toLang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
 ---
 
-<section id="experience" class="min-h-screen snap-start py-16 w-full">
-  <h1 class="text-xl font-bold mb-8">Trabajos</h1>
-  <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8">
-    {experiences.map((experience) => <Card experience={experience} />)}
+<section id="proyectos" class="wrap scroll-mt-20 pt-28" aria-labelledby="proyectos-title">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <h2 id="proyectos-title" class="display text-5xl sm:text-7xl">
+      {t('projects.title')}
+    </h2>
+    <p class="max-w-[42ch] text-muted">{t('projects.intro')}</p>
   </div>
+
+  <ul class="mt-10 grid gap-x-10 md:grid-cols-2">
+    {
+      projects.map((project) => {
+        const { name, year, summary, stack, links } = project.data;
+        return (
+          <li class="flex flex-col border-t border-line py-8">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="display text-3xl">{name}</h3>
+              <span class="text-sm text-muted tabular-nums">{year}</span>
+            </div>
+            <p class="mt-3 max-w-[52ch] leading-relaxed">{summary}</p>
+            <p class="mt-3 text-sm text-muted">{stack.join(', ')}</p>
+            {links.length > 0 && (
+              <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+                {links.map((link) => (
+                  <li>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="link font-medium"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
 </section>
