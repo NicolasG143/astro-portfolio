@@ -1,15 +1,21 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-import { profile } from '../data/profile';
+import { getProfile } from '../data/profile';
+import { slugOf } from '../data/content';
+import { homePath, jobPath, toLang, useTranslations } from '../i18n/ui';
 
 interface Props {
   jobs: CollectionEntry<'jobs'>[];
 }
 
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const profile = getProfile(lang);
+
 const showcase = Astro.props.jobs
   .filter((job) => job.data.gallery.length > 0)
-  .map((job) => ({ id: job.id, company: job.data.company, shot: job.data.gallery[0] }));
+  .map((job) => ({ id: slugOf(job), company: job.data.company, shot: job.data.gallery[0] }));
 ---
 
 <section class="wrap pt-8 pb-16 sm:pt-12" aria-labelledby="hero-title">
@@ -20,75 +26,99 @@ const showcase = Astro.props.jobs
         software<br />engineer
       </h1>
       <p class="mt-8 max-w-[44ch] text-lg leading-relaxed lg:ml-auto lg:text-right">
-        Hago sitios y sistemas web rápidos, accesibles y fáciles de usar. Trabajo con Next.js, React,
-        Node.js y Astro: diseño la interfaz, escribo la lógica del servidor y cuido la infraestructura
-        que lo sostiene.
+        {t('hero.body')}
       </p>
 
-      <div class="mt-auto grid gap-8 border-t border-line pt-8 sm:grid-cols-[auto_1fr_1fr] sm:items-end lg:mt-12">
-        <ul class="flex gap-2" aria-label="Redes">
+      <div class="mt-auto flex flex-wrap items-center gap-3 border-t border-line pt-8 lg:mt-12">
+        <a href={profile.cv} target="_blank" rel="noopener noreferrer" class="btn btn-solid px-6 py-3">
+          {t('cv.view')}
+        </a>
+        <a href={homePath(lang, '#contacto')} class="btn px-6 py-3">{t('hero.write')}</a>
+        <ul class="flex gap-5 sm:ml-auto" aria-label={t('hero.social')}>
           {profile.social.map((s) => (
             <li>
-              <a href={s.url} target="_blank" rel="noopener noreferrer" class="btn px-3.5 py-1.5 text-sm">{s.label}</a>
+              <a href={s.url} target="_blank" rel="noopener noreferrer" class="link">{s.label}</a>
             </li>
           ))}
         </ul>
-        <div>
-          <p class="display text-5xl">+15 TB</p>
-          <p class="mt-2 max-w-[26ch] text-sm text-muted">de ataques DDoS mitigados con Cloudflare en FúriusAO.</p>
-        </div>
-        <div>
-          <p class="display text-5xl">+60</p>
-          <p class="mt-2 max-w-[26ch] text-sm text-muted">campos de un formulario convertidos en un cotizador por pasos.</p>
-        </div>
       </div>
     </div>
 
     {showcase.length > 0 && (
       <div class="grid grid-cols-[minmax(0,1fr)_auto] gap-3" data-showcase>
-        <div class="relative flex flex-col overflow-hidden rounded-[2.25rem] bg-accent p-4 sm:p-6">
-          {showcase.map((item, i) => (
-            <a
-              href={`/trabajos/${item.id}/`}
-              class="group flex flex-1 flex-col"
-              data-slide={item.id}
-              hidden={i !== 0}
-            >
-              <div class="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] bg-black shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] lg:aspect-auto lg:min-h-[18rem] lg:flex-1">
-                <Image
-                  src={item.shot.src}
-                  alt={item.shot.alt}
-                  widths={[480, 720, 960, 1280]}
-                  sizes="(min-width: 64rem) 38vw, 90vw"
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  class="absolute inset-0 size-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                />
-              </div>
-              <p class="mt-4 flex items-center justify-between gap-3 text-on-accent">
-                <span class="display text-3xl sm:text-4xl">{item.company}</span>
-                <span class="grid size-11 shrink-0 place-items-center rounded-full bg-black text-white transition-transform group-hover:rotate-45" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8" /></svg>
-                </span>
-                <span class="sr-only">Ver el trabajo</span>
-              </p>
-            </a>
-          ))}
-        </div>
-        <ul class="flex flex-col gap-3" aria-label="Elegir trabajo destacado">
-          {showcase.map((item, i) => (
-            <li>
-              <button
-                type="button"
-                class="thumb block size-14 overflow-hidden rounded-full border-2 border-transparent sm:size-16"
-                data-show={item.id}
-                aria-pressed={i === 0 ? 'true' : 'false'}
-                aria-label={`Mostrar ${item.company}`}
+        <div
+          class="relative flex flex-col overflow-hidden rounded-[2.25rem] bg-accent p-4 sm:p-6"
+          role="region"
+          aria-roledescription={t('carousel.role')}
+          aria-label={t('carousel.label')}
+        >
+          <div class="grid flex-1">
+            {showcase.map((item, i) => (
+              <a
+                href={jobPath(lang, item.id)}
+                class="slide group flex flex-col [grid-area:1/1]"
+                data-slide={item.id}
+                data-active={i === 0 ? '' : undefined}
+                inert={i !== 0}
+                aria-label={t('carousel.open', { name: item.company })}
               >
-                <Image src={item.shot.src} alt="" width={128} height={128} class="size-full object-cover object-top" />
-              </button>
-            </li>
-          ))}
-        </ul>
+                <div class="relative aspect-[4/3] overflow-hidden rounded-[1.4rem] bg-black shadow-[0_24px_48px_-24px_rgba(0,0,0,0.55)] lg:aspect-auto lg:min-h-[18rem] lg:flex-1">
+                  <Image
+                    src={item.shot.src}
+                    alt={item.shot.alt}
+                    widths={[480, 720, 960, 1280]}
+                    sizes="(min-width: 64rem) 38vw, 90vw"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    class="absolute inset-0 size-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <p class="mt-4 flex items-center justify-between gap-3 text-on-accent">
+                  <span class="display text-3xl sm:text-4xl">{item.company}</span>
+                  <span class="grid size-11 shrink-0 place-items-center rounded-full bg-on-accent text-accent transition-transform group-hover:rotate-45" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8" /></svg>
+                  </span>
+                </p>
+              </a>
+            ))}
+          </div>
+          <div class="mt-4 h-1 overflow-hidden rounded-full bg-on-accent/15" aria-hidden="true">
+            <div class="progress h-full w-full origin-left rounded-full bg-on-accent" data-progress></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <ul class="flex flex-col gap-3" aria-label={t('carousel.pick')}>
+            {showcase.map((item, i) => (
+              <li>
+                <button
+                  type="button"
+                  class="thumb block size-14 overflow-hidden rounded-full border-2 border-transparent sm:size-16"
+                  data-show={item.id}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-label={t('carousel.show', { name: item.company })}
+                >
+                  <Image src={item.shot.src} alt="" width={128} height={128} class="size-full object-cover object-top" />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            class="grid size-14 place-items-center rounded-full border border-line transition-colors hover:border-ink sm:size-16"
+            data-toggle-play
+            data-label-pause={t('carousel.pause')}
+            data-label-play={t('carousel.play')}
+            aria-label={t('carousel.pause')}
+            hidden
+          >
+            <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true" data-icon-pause>
+              <rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" />
+            </svg>
+            <svg viewBox="0 0 24 24" class="hidden size-5" fill="currentColor" aria-hidden="true" data-icon-play>
+              <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" />
+            </svg>
+          </button>
+        </div>
       </div>
     )}
   </div>
@@ -107,6 +137,15 @@ const showcase = Astro.props.jobs
     }
   }
 
+  .slide {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .slide[data-active] {
+    opacity: 1;
+  }
+
   .thumb {
     transition:
       border-color 0.2s,
@@ -120,9 +159,32 @@ const showcase = Astro.props.jobs
   .thumb[aria-pressed='true'] {
     border-color: var(--ink);
   }
+
+  .progress {
+    transform: scaleX(0);
+  }
+
+  .progress[data-running] {
+    animation: fill var(--slide-ms, 5000ms) linear forwards;
+  }
+
+  .progress[data-paused] {
+    animation-play-state: paused;
+  }
+
+  @keyframes fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
 </style>
 
 <script>
+  const SLIDE_MS = 5000;
+
   const setup = () => {
     const root = document.querySelector<HTMLElement>('[data-showcase]');
     if (!root || root.dataset.ready) return;
@@ -130,13 +192,86 @@ const showcase = Astro.props.jobs
 
     const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
     const thumbs = [...root.querySelectorAll<HTMLButtonElement>('[data-show]')];
+    const progress = root.querySelector<HTMLElement>('[data-progress]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle-play]');
+    const card = root.querySelector<HTMLElement>('[role="region"]') ?? root;
+    let index = 0;
 
-    for (const thumb of thumbs) {
+    const show = (next: number) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        slide.toggleAttribute('data-active', active);
+        slide.inert = !active;
+      });
+      thumbs.forEach((thumb, i) => thumb.setAttribute('aria-pressed', String(i === index)));
+    };
+
+    for (const [i, thumb] of thumbs.entries()) {
       thumb.addEventListener('click', () => {
-        for (const slide of slides) slide.hidden = slide.dataset.slide !== thumb.dataset.show;
-        for (const other of thumbs) other.setAttribute('aria-pressed', String(other === thumb));
+        show(i);
+        restart();
       });
     }
+
+    // Autoplay: the progress bar animation is the timer, so pausing it pauses the carousel.
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!progress || !toggle || slides.length < 2 || reduced) {
+      progress?.parentElement?.setAttribute('hidden', '');
+      return;
+    }
+
+    progress.style.setProperty('--slide-ms', `${SLIDE_MS}ms`);
+    toggle.hidden = false;
+    let userPaused = false;
+    let hovered = false;
+
+    const sync = () => {
+      const paused = userPaused || hovered || document.hidden;
+      progress.toggleAttribute('data-paused', paused);
+    };
+
+    function restart() {
+      progress!.removeAttribute('data-running');
+      void progress!.offsetWidth; // restart the CSS animation
+      progress!.setAttribute('data-running', '');
+      sync();
+    }
+
+    progress.addEventListener('animationend', () => {
+      show(index + 1);
+      restart();
+    });
+
+    card.addEventListener('pointerenter', () => {
+      hovered = true;
+      sync();
+    });
+    card.addEventListener('pointerleave', () => {
+      hovered = false;
+      sync();
+    });
+    card.addEventListener('focusin', () => {
+      hovered = true;
+      sync();
+    });
+    card.addEventListener('focusout', (event) => {
+      if (!card.contains(event.relatedTarget as Node | null)) {
+        hovered = false;
+        sync();
+      }
+    });
+    document.addEventListener('visibilitychange', sync);
+
+    toggle.addEventListener('click', () => {
+      userPaused = !userPaused;
+      toggle.setAttribute('aria-label', (userPaused ? toggle.dataset.labelPlay : toggle.dataset.labelPause) ?? '');
+      toggle.querySelector('[data-icon-pause]')?.classList.toggle('hidden', userPaused);
+      toggle.querySelector('[data-icon-play]')?.classList.toggle('hidden', !userPaused);
+      sync();
+    });
+
+    restart();
   };
 
   document.addEventListener('astro:page-load', setup);

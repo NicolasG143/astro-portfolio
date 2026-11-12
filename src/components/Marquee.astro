@@ -1,15 +1,15 @@
 ---
 interface Props {
   word: string;
-  inverted?: boolean;
+  accent?: boolean;
 }
 
-const { word, inverted = false } = Astro.props;
+const { word, accent = false } = Astro.props;
 const items = Array.from({ length: 8 }, () => word);
 ---
 
 <div
-  class:list={['marquee overflow-hidden py-3 select-none', inverted ? 'bg-ink text-paper' : 'text-ink']}
+  class:list={['marquee overflow-hidden py-3 select-none', accent ? 'bg-accent text-on-accent' : 'text-ink']}
   aria-hidden="true"
 >
   <div class="marquee-track flex w-max">

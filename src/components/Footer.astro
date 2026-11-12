@@ -1,13 +1,18 @@
 ---
-import { profile } from '../data/profile';
+import { getProfile } from '../data/profile';
+import { homePath, toLang, useTranslations } from '../i18n/ui';
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const profile = getProfile(lang);
 ---
 
 <footer class="mt-28 overflow-hidden border-t border-line" data-footer>
   <div class="wrap flex flex-col gap-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
     <p class="text-muted">{profile.name}, {profile.location}.</p>
     <ul class="flex gap-6">
-      <li><a href="/#trabajos" class="hover:text-muted">Trabajos</a></li>
-      <li><a href="/#sobre-mi" class="hover:text-muted">Sobre mí</a></li>
+      <li><a href={homePath(lang, '#trabajos')} class="hover:text-muted">{t('nav.work')}</a></li>
+      <li><a href={homePath(lang, '#sobre-mi')} class="hover:text-muted">{t('nav.about')}</a></li>
       {profile.social.map((s) => (
         <li><a href={s.url} target="_blank" rel="noopener noreferrer" class="hover:text-muted">{s.label}</a></li>
       ))}

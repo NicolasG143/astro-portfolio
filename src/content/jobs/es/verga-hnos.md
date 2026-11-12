@@ -9,7 +9,7 @@ links:
   - label: Visitar vergahnos.com.ar
     url: https://vergahnos.com.ar
 gallery:
-  - src: ../../assets/work/vergahnos.webp
+  - src: ../../../assets/work/vergahnos.webp
     alt: Página de inicio del sitio de Verga Hnos.
     caption: La home del sitio de Verga Hnos.
 ---

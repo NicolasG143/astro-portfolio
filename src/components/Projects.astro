@@ -1,19 +1,21 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { toLang, useTranslations } from '../i18n/ui';
 
 interface Props {
   projects: CollectionEntry<'projects'>[];
 }
 
 const { projects } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
 ---
 
 <section id="proyectos" class="wrap scroll-mt-20 pt-28" aria-labelledby="proyectos-title">
   <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <h2 id="proyectos-title" class="display text-5xl sm:text-7xl">
-      Proyectos personales
+      {t('projects.title')}
     </h2>
-    <p class="max-w-[42ch] text-muted">Cosas que hago por mi cuenta, para aprender y probar ideas.</p>
+    <p class="max-w-[42ch] text-muted">{t('projects.intro')}</p>
   </div>
 
   <ul class="mt-10 grid gap-x-10 md:grid-cols-2">

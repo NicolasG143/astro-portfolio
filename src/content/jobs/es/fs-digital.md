@@ -11,10 +11,10 @@ links:
   - label: Ver la wiki
     url: https://fsao.com.ar/wiki
 gallery:
-  - src: ../../assets/work/furiusao.webp
+  - src: ../../../assets/work/furiusao.webp
     alt: Página de inicio del sitio de FúriusAO
     caption: El sitio del juego.
-  - src: ../../assets/work/furiusaowiki.webp
+  - src: ../../../assets/work/furiusaowiki.webp
     alt: Una página de la wiki de FúriusAO
     caption: La wiki oficial, escrita en Markdown.
 ---

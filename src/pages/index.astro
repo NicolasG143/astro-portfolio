@@ -1,24 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import Marquee from '../components/Marquee.astro';
-import WorkList from '../components/WorkList.astro';
-import Projects from '../components/Projects.astro';
-import About from '../components/About.astro';
-import Contact from '../components/Contact.astro';
-import { getJobs, getProjects } from '../data/content';
-
-const [jobs, projects] = await Promise.all([getJobs(), getProjects()]);
+import HomePage from '../views/HomePage.astro';
 ---
 
-<Layout
-  title="Nicolás Giménez, Software Engineer full-stack en Buenos Aires"
-  description="Nicolás “Tuty” Giménez construye sitios y sistemas web rápidos, accesibles y fáciles de usar con Next.js, React, Node.js y Astro."
->
-  <Hero jobs={jobs} />
-  <Marquee word="trabajos" inverted />
-  <WorkList jobs={jobs} />
-  {projects.length > 0 && <Projects projects={projects} />}
-  <About />
-  <Contact />
-</Layout>
+<HomePage />

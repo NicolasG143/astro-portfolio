@@ -1,87 +1,271 @@
 ---
+import CopyButton from './CopyButton.astro';
 import { getProjects } from '../data/content';
-import { profile } from '../data/profile';
+import { getProfile } from '../data/profile';
+import { homePath, langs, toLang, useTranslations, type Lang } from '../i18n/ui';
 
-const hasProjects = (await getProjects()).length > 0;
+interface Props {
+  alternates: Record<Lang, string>;
+}
+
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const profile = getProfile(lang);
+const other = langs.find((l) => l !== lang)!;
+const { alternates } = Astro.props;
+
+const hasProjects = (await getProjects(lang)).length > 0;
 const links = [
-  { label: 'Trabajos', href: '/#trabajos' },
-  ...(hasProjects ? [{ label: 'Proyectos', href: '/#proyectos' }] : []),
-  { label: 'Sobre mí', href: '/#sobre-mi' },
-  { label: 'Contacto', href: '/#contacto' },
+  { label: t('nav.work'), href: homePath(lang, '#trabajos') },
+  ...(hasProjects ? [{ label: t('nav.projects'), href: homePath(lang, '#proyectos') }] : []),
+  { label: t('nav.about'), href: homePath(lang, '#sobre-mi') },
+  { label: t('nav.contact'), href: homePath(lang, '#contacto') },
 ];
 ---
 
-<header class="sticky top-0 z-40 bg-paper/80 backdrop-blur-md" data-header transition:persist>
-  <div class="wrap flex h-16 items-center justify-between gap-4 border-b border-transparent transition-colors" data-header-line>
-    <a href="/" class="display group flex items-baseline text-[1.65rem] leading-none" aria-label="Tuty, ir al inicio">
-      tuty<span class="ml-0.5 inline-block size-2.5 rounded-full bg-accent transition-transform group-hover:scale-150" aria-hidden="true"></span>
-    </a>
+<header
+  class="site-header sticky top-0 z-50 md:bg-paper/80 md:backdrop-blur-md"
+  data-header
+  transition:persist={`header-${lang}`}
+>
+  <!-- Bar: a floating glass pill on mobile, a full-width bar from md up. -->
+  <div class="relative z-20 px-3 pt-3 md:px-0 md:pt-0">
+    <div
+      class="bar mx-auto flex h-14 items-center justify-between gap-4 rounded-full border border-line bg-paper/70 pr-1.5 pl-5 shadow-[0_10px_30px_-18px_rgba(18,13,29,0.45)] backdrop-blur-xl md:wrap md:h-16 md:rounded-none md:border-x-0 md:border-t-0 md:border-b-transparent md:bg-transparent md:px-0 md:shadow-none md:backdrop-blur-none"
+      data-header-line
+    >
+      <a href={homePath(lang)} class="display group flex items-baseline text-[1.65rem] leading-none" aria-label={t('nav.home')}>
+        tuty<span class="ml-0.5 inline-block size-2.5 rounded-full bg-accent transition-transform group-hover:scale-150" aria-hidden="true"></span>
+      </a>
 
-    <nav aria-label="Principal" class="hidden md:block">
-      <ul class="flex items-center gap-7 text-sm">
-        {links.map((link) => (
-          <li><a href={link.href} class="text-muted transition-colors hover:text-ink">{link.label}</a></li>
+      <nav aria-label={t('nav.main')} class="hidden md:block">
+        <ul class="flex items-center gap-7 text-sm">
+          {links.map((link) => (
+            <li><a href={link.href} class="text-muted transition-colors hover:text-ink">{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-1.5 md:gap-2">
+        <CopyButton value={profile.email} statusId="header-copy-status" dot class="hidden py-1.5 text-sm md:inline-flex" />
+        <a
+          href={alternates[other]}
+          hreflang={other}
+          lang={other}
+          class="grid h-10 place-items-center rounded-full border border-line px-3 text-sm font-medium uppercase transition-colors hover:border-ink md:h-9"
+          aria-label={t('lang.switchLabel')}
+        >
+          {other}
+        </a>
+        <button
+          type="button"
+          data-theme-toggle
+          data-label-dark={t('theme.toDark')}
+          data-label-light={t('theme.toLight')}
+          class="grid size-10 place-items-center rounded-full border border-line transition-colors hover:border-ink md:size-9"
+          aria-label={t('theme.toDark')}
+        >
+          <svg viewBox="0 0 24 24" class="size-4.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor"></path>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="burger grid size-11 place-items-center rounded-full bg-ink text-paper md:hidden"
+          aria-expanded="false"
+          aria-controls={`mobile-menu-${lang}`}
+          aria-label={t('menu.open')}
+          data-label-open={t('menu.open')}
+          data-label-close={t('menu.close')}
+          data-menu-toggle
+        >
+          <span class="relative block h-3 w-5" aria-hidden="true">
+            <span class="burger-line absolute left-0 top-0 h-0.5 w-full rounded-full bg-current"></span>
+            <span class="burger-line absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-current"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu: dimmed, blurred page behind a glass panel that grows out of the burger button. -->
+  <div class="scrim fixed inset-0 z-0 bg-ink/25 backdrop-blur-md md:hidden" data-menu-scrim aria-hidden="true"></div>
+  <div
+    id={`mobile-menu-${lang}`}
+    class="panel fixed inset-x-3 top-3 z-10 rounded-[2rem] border border-line bg-paper/75 px-6 pt-24 pb-8 shadow-[0_30px_80px_-30px_rgba(18,13,29,0.6)] backdrop-blur-2xl md:hidden"
+    data-menu
+    inert
+  >
+    <nav aria-label={t('nav.mobile')}>
+      <ul class="flex flex-col">
+        {links.map((link, i) => (
+          <li class="menu-item border-b border-line" style={`--i: ${i}`}>
+            <a href={link.href} class="display flex items-center justify-between py-4 text-[2.75rem] leading-none" data-menu-link>
+              {link.label}
+              <svg viewBox="0 0 24 24" class="size-7 text-accent" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
+            </a>
+          </li>
         ))}
       </ul>
     </nav>
-
-    <div class="flex items-center gap-2">
-      <button type="button" class="btn hidden py-1.5 text-sm sm:inline-flex" data-copy={profile.email} data-status="header-copy-status">
-        <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
-        <span data-copy-label>Copiar mail</span>
-      </button>
-      <span id="header-copy-status" class="sr-only" aria-live="polite"></span>
-      <button
-        type="button"
-        data-theme-toggle
-        class="grid size-9 place-items-center rounded-full border border-line transition-colors hover:border-ink"
-        aria-label="Usar modo oscuro"
-      >
-        <svg viewBox="0 0 24 24" class="size-4.5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="8.5"></circle>
-          <path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor"></path>
-        </svg>
-      </button>
+    <div class="menu-item mt-8 flex flex-wrap items-center gap-3" style={`--i: ${links.length}`}>
+      <CopyButton value={profile.email} statusId="menu-copy-status" dot />
+      <a href={profile.cv} target="_blank" rel="noopener noreferrer" class="btn btn-solid">{t('cv.view')}</a>
     </div>
-  </div>
-  <nav aria-label="Principal, móvil" class="wrap -mt-1 pb-3 md:hidden">
-    <ul class="flex gap-5 text-sm">
-      {links.map((link) => (
-        <li><a href={link.href} class="text-muted hover:text-ink">{link.label}</a></li>
+    <ul class="menu-item mt-6 flex gap-5" style={`--i: ${links.length + 1}`}>
+      {profile.social.map((s) => (
+        <li><a href={s.url} target="_blank" rel="noopener noreferrer" class="link">{s.label}</a></li>
       ))}
     </ul>
-  </nav>
+  </div>
 </header>
 
-<script>
-  import '../scripts/copy';
+<style>
+  .panel {
+    --x: calc(100% - 2.25rem);
+    --y: 1.75rem;
+    clip-path: circle(0 at var(--x) var(--y));
+    visibility: hidden;
+    transition:
+      clip-path 0.55s cubic-bezier(0.7, 0, 0.2, 1),
+      visibility 0s linear 0.55s;
+  }
 
-  const syncLabel = (button: HTMLButtonElement) => {
+  .scrim {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.45s ease,
+      visibility 0s linear 0.45s;
+  }
+
+  .menu-item {
+    opacity: 0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .burger-line {
+    transition: transform 0.35s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+
+  [data-open] .panel {
+    clip-path: circle(150% at var(--x) var(--y));
+    visibility: visible;
+    transition:
+      clip-path 0.65s cubic-bezier(0.7, 0, 0.2, 1),
+      visibility 0s;
+  }
+
+  [data-open] .scrim {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.45s ease,
+      visibility 0s;
+  }
+
+  /* Items arrive one after another once the panel has started to open; on close they leave together. */
+  [data-open] .menu-item {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.4s ease calc(0.18s + var(--i) * 0.05s),
+      transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.18s + var(--i) * 0.05s);
+  }
+
+  [data-open] .burger-line:first-child {
+    transform: translateY(0.3125rem) rotate(45deg);
+  }
+
+  [data-open] .burger-line:last-child {
+    transform: translateY(-0.3125rem) rotate(-45deg);
+  }
+
+  [data-open] .bar {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+</style>
+
+<script>
+  const syncThemeLabel = (button: HTMLButtonElement) => {
     const dark = document.documentElement.dataset.theme === 'dark';
-    button.setAttribute('aria-label', dark ? 'Usar modo claro' : 'Usar modo oscuro');
+    button.setAttribute('aria-label', (dark ? button.dataset.labelLight : button.dataset.labelDark) ?? '');
   };
 
   const setup = () => {
-    const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-    const line = document.querySelector<HTMLElement>('[data-header-line]');
-    if (!button || !line) return;
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const themeButton = header?.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+    const line = header?.querySelector<HTMLElement>('[data-header-line]');
+    const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const menu = header?.querySelector<HTMLElement>('[data-menu]');
+    const scrim = header?.querySelector<HTMLElement>('[data-menu-scrim]');
+    if (!header || !themeButton || !line || !toggle || !menu || !scrim) return;
 
-    syncLabel(button);
-    if (button.dataset.ready) return;
-    button.dataset.ready = 'true';
+    syncThemeLabel(themeButton);
+    if (header.dataset.ready) return;
+    header.dataset.ready = 'true';
 
-    button.addEventListener('click', () => {
+    themeButton.addEventListener('click', () => {
       const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = next;
       try {
         localStorage.setItem('theme', next);
       } catch {}
-      syncLabel(button);
+      syncThemeLabel(themeButton);
     });
 
-    const onScroll = () => line.classList.toggle('border-line', window.scrollY > 8);
+    const onScroll = () => line.classList.toggle('md:border-b-line', window.scrollY > 8);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // Mobile menu
+    const isOpen = () => header.hasAttribute('data-open');
+
+    const setOrigin = () => {
+      // Grow the panel out of the burger button's center.
+      const b = toggle.getBoundingClientRect();
+      const p = menu.getBoundingClientRect();
+      menu.style.setProperty('--x', `${b.left + b.width / 2 - p.left}px`);
+      menu.style.setProperty('--y', `${b.top + b.height / 2 - p.top}px`);
+    };
+
+    const setOpen = (open: boolean, { restoreFocus = true } = {}) => {
+      if (open === isOpen()) return;
+      if (open) setOrigin();
+      header.toggleAttribute('data-open', open);
+      menu.inert = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      // Keep keyboard focus inside the menu while it is open.
+      for (const region of document.querySelectorAll<HTMLElement>('body > main, body > footer')) {
+        region.inert = open;
+      }
+      if (open) {
+        menu.querySelector<HTMLElement>('[data-menu-link]')?.focus({ preventScroll: true });
+      } else if (restoreFocus) {
+        toggle.focus({ preventScroll: true });
+      }
+    };
+
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+    scrim.addEventListener('click', () => setOpen(false));
+    for (const link of menu.querySelectorAll<HTMLAnchorElement>('[data-menu-link]')) {
+      link.addEventListener('click', () => setOpen(false, { restoreFocus: false }));
+    }
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen()) setOpen(false);
+    });
+    matchMedia('(min-width: 48rem)').addEventListener('change', (event) => {
+      if (event.matches) setOpen(false, { restoreFocus: false });
+    });
+    document.addEventListener('astro:before-swap', () => setOpen(false, { restoreFocus: false }));
   };
 
   document.addEventListener('astro:page-load', setup);

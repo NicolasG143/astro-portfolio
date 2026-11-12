@@ -9,7 +9,7 @@ links:
   - label: Visitar logisticaalmagro.com.ar
     url: https://logisticaalmagro.com.ar
 gallery:
-  - src: ../../assets/work/logisticaalmagro.webp
+  - src: ../../../assets/work/logisticaalmagro.webp
     alt: Página de inicio del sitio de Logística Almagro
     caption: La home del sitio.
 ---

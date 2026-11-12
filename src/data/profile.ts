@@ -1,24 +1,44 @@
-export const profile = {
+import type { Lang } from '../i18n/ui';
+
+const shared = {
   name: 'Nicolás Giménez',
   nickname: 'Tuty',
-  role: 'Software Engineer full-stack',
-  location: 'Buenos Aires, Argentina',
   email: 'nicolasgimenezgg@gmail.com',
-  cv: 'https://drive.google.com/file/d/10Saa0bYHUriSuhT2Dnonh0p2aX3-_G46/view?usp=sharing',
   social: [
     { label: 'GitHub', url: 'https://github.com/NicolasG143' },
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/nicolasgimenezgg' },
   ],
-  skills: [
-    {
-      group: 'Front-end',
-      items: ['React', 'Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'JavaScript', 'HTML', 'CSS'],
-    },
-    { group: 'Back-end', items: ['Node.js', 'Express', 'Drizzle ORM', 'NGINX'] },
-    { group: 'Herramientas', items: ['Git', 'GitHub', 'Cloudflare', 'Google Tag Manager', 'Resend'] },
-    { group: 'Idiomas', items: ['Español (nativo)', 'Inglés (B2)'] },
-  ],
-} as const;
+};
 
-export const yearRange = (start: number, end: number) =>
-  start === end ? `${start}` : `${start}–${end}`;
+const front = ['React', 'Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'JavaScript', 'HTML', 'CSS'];
+const back = ['Node.js', 'Express', 'Drizzle ORM', 'NGINX'];
+const tools = ['Git', 'GitHub', 'Cloudflare', 'Google Tag Manager', 'Resend'];
+
+const localized = {
+  es: {
+    role: 'Software Engineer full-stack',
+    location: 'Buenos Aires, Argentina',
+    cv: 'https://drive.google.com/file/d/1PR-0fl9LPA7of98ONMy_1qrB3-NW-fzr/view?usp=drive_link',
+    skills: [
+      { group: 'Front-end', items: front },
+      { group: 'Back-end', items: back },
+      { group: 'Herramientas', items: tools },
+      { group: 'Idiomas', items: ['Español (nativo)', 'Inglés (B2)'] },
+    ],
+  },
+  en: {
+    role: 'full-stack Software Engineer',
+    location: 'Buenos Aires, Argentina',
+    cv: 'https://drive.google.com/file/d/1O8Gw7vqJEMitHG0ia7XbJYSQpf_4aur-/view?usp=drive_link',
+    skills: [
+      { group: 'Front-end', items: front },
+      { group: 'Back-end', items: back },
+      { group: 'Tools', items: tools },
+      { group: 'Languages', items: ['Spanish (native)', 'English (B2)'] },
+    ],
+  },
+} satisfies Record<Lang, unknown>;
+
+export const getProfile = (lang: Lang) => ({ ...shared, ...localized[lang] });
+
+export const yearRange = (start: number, end: number) => (start === end ? `${start}` : `${start}–${end}`);
