@@ -54,6 +54,7 @@ const links = [
           lang={other}
           class="grid h-10 place-items-center rounded-full border border-line px-3 text-sm font-medium uppercase transition-colors hover:border-ink md:h-9"
           aria-label={t('lang.switchLabel')}
+          data-lang-switch
         >
           {other}
         </a>
@@ -208,6 +209,14 @@ const links = [
     if (!header || !themeButton || !line || !toggle || !menu || !scrim) return;
 
     syncThemeLabel(themeButton);
+
+    // The header persists across client-side navigations, so its language link would keep pointing at
+    // the page it was first rendered on. Re-point it at the current page's counterpart from the swapped <head>.
+    const langSwitch = header.querySelector<HTMLAnchorElement>('[data-lang-switch]');
+    const target = langSwitch?.getAttribute('hreflang');
+    const alternate = document.head.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${target}"]`);
+    if (langSwitch && alternate) langSwitch.setAttribute('href', new URL(alternate.href).pathname);
+
     if (header.dataset.ready) return;
     header.dataset.ready = 'true';
 
