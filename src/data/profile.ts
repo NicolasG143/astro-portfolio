@@ -11,7 +11,7 @@ const shared = {
 };
 
 const front = ['React', 'Next.js', 'Astro', 'Tailwind CSS', 'TypeScript', 'JavaScript', 'HTML', 'CSS'];
-const back = ['Node.js', 'Express', 'Drizzle ORM', 'NGINX'];
+const back = ['Node.js', 'Express', 'PostgreSQL', 'Drizzle ORM', 'NGINX'];
 const tools = ['Git', 'GitHub', 'Cloudflare', 'Google Tag Manager', 'Resend'];
 
 const localized = {

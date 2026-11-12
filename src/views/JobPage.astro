@@ -22,7 +22,13 @@ const { Content } = await render(job);
 const [cover, ...rest] = gallery;
 ---
 
-<Layout title={t('job.title', { company })} description={summary} alternates={alternates}>
+<Layout
+  title={t('job.title', { company })}
+  description={summary}
+  alternates={alternates}
+  image={`/og/${lang}/${slug}.png`}
+  type="article"
+>
   <article>
     <header class="wrap pt-8 sm:pt-12">
       <a href={homePath(lang, '#trabajos')} class="link text-sm text-muted">{t('job.back')}</a>

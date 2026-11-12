@@ -7,14 +7,38 @@ import Projects from '../components/Projects.astro';
 import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
 import { getJobs, getProjects, homeAlternates } from '../data/content';
-import { toLang, useTranslations } from '../i18n/ui';
+import { getProfile } from '../data/profile';
+import { homePath, langs, toLang, useTranslations } from '../i18n/ui';
 
 const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
+const profile = getProfile(lang);
 const [jobs, projects] = await Promise.all([getJobs(lang), getProjects(lang)]);
+const site = Astro.site ?? Astro.url;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  alternateName: profile.nickname,
+  jobTitle: profile.role,
+  description: t('meta.description'),
+  url: new URL(homePath(lang), site).href,
+  email: `mailto:${profile.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+  sameAs: profile.social.map((s) => s.url),
+  knowsAbout: profile.skills.filter((_, i) => i < 3).flatMap((s) => s.items),
+  knowsLanguage: langs,
+};
 ---
 
-<Layout title={t('meta.title')} description={t('meta.description')} alternates={homeAlternates}>
+<Layout
+  title={t('meta.title')}
+  description={t('meta.description')}
+  alternates={homeAlternates}
+  image={`/og/${lang}.png`}
+  structuredData={person}
+>
   <Hero jobs={jobs} />
   <Marquee word={t('work.marquee')} accent />
   <WorkList jobs={jobs} />
