@@ -1,0 +1,33 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section id="sobre-mi" class="wrap scroll-mt-24 pt-28" aria-labelledby="sobre-mi-title">
+  <h2 id="sobre-mi-title" class="text-muted">Sobre mí</h2>
+  <p class="display mt-6 max-w-[17ch] text-[clamp(2.5rem,6.5vw,5.75rem)] text-balance">
+    De la interfaz a la infraestructura, conozco el ciclo completo.
+  </p>
+
+  <div class="mt-16 grid gap-14 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+    <div class="max-w-[58ch] space-y-4 text-lg leading-relaxed">
+      <p>
+        Me gusta construir sitios y aplicaciones, pero sobre todo herramientas que le hagan el día más
+        fácil a quien las usa: un formulario que se entiende, un panel que no te deja cargar un dato
+        mal, una página que carga al instante.
+      </p>
+      <p>
+        Cada tecnología nueva es un desafío para mí. No me alcanza con usarla: quiero entender cómo
+        funciona por dentro.
+      </p>
+    </div>
+
+    <dl class="border-t border-line lg:border-t-0">
+      {profile.skills.map((skill) => (
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-[10rem_minmax(0,1fr)] lg:first:pt-0">
+          <dt class="text-muted">{skill.group}</dt>
+          <dd class="text-lg">{skill.items.join(', ')}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

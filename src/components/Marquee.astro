@@ -1,0 +1,46 @@
+---
+interface Props {
+  word: string;
+  inverted?: boolean;
+}
+
+const { word, inverted = false } = Astro.props;
+const items = Array.from({ length: 8 }, () => word);
+---
+
+<div
+  class:list={['marquee overflow-hidden py-3 select-none', inverted ? 'bg-ink text-paper' : 'text-ink']}
+  aria-hidden="true"
+>
+  <div class="marquee-track flex w-max">
+    {[0, 1].map(() => (
+      <span class="flex shrink-0">
+        {items.map((w) => (
+          <span class="display pr-[0.35em] text-[clamp(3.5rem,11vw,9.5rem)] whitespace-nowrap">{w}.</span>
+        ))}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-track {
+    animation: scroll 38s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>

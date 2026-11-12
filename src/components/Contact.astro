@@ -1,0 +1,22 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section id="contacto" class="wrap scroll-mt-24 pt-28" aria-labelledby="contacto-title">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end">
+    <h2 id="contacto-title" class="display text-[clamp(4rem,13vw,11.5rem)]">hablemos.</h2>
+    <div class="lg:pb-4">
+      <p class="max-w-[40ch] text-lg leading-relaxed">
+        ¿Tenés un proyecto en mente? Contame qué necesitás y te respondo por mail.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href={`mailto:${profile.email}`} class="btn btn-solid">Escribime</a>
+        <button type="button" class="btn" data-copy={profile.email} data-status="contact-copy-status">
+          <span data-copy-label>Copiar {profile.email}</span>
+        </button>
+        <span id="contact-copy-status" class="sr-only" aria-live="polite"></span>
+      </div>
+      <a href={profile.cv} target="_blank" rel="noopener noreferrer" class="link mt-6 inline-block">Ver mi CV</a>
+    </div>
+  </div>
+</section>
