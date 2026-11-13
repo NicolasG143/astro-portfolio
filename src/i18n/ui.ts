@@ -65,6 +65,12 @@ const es = {
   'job.moreShots': 'Más capturas',
   'job.next': 'Siguiente trabajo',
   'job.title': '{company}, trabajo de Nicolás Giménez',
+  'project.back': 'Volver a los proyectos',
+  'project.year': 'Año',
+  'project.next': 'Siguiente proyecto',
+  'project.view': 'Ver proyecto',
+  'project.title': '{name}, proyecto de Nicolás Giménez',
+  'project.label': 'Proyecto',
 };
 
 const en: Record<keyof typeof es, string> = {
@@ -129,6 +135,12 @@ const en: Record<keyof typeof es, string> = {
   'job.moreShots': 'More screenshots',
   'job.next': 'Next project',
   'job.title': '{company}, work by Nicolás Giménez',
+  'project.back': 'Back to projects',
+  'project.year': 'Year',
+  'project.next': 'Next project',
+  'project.view': 'View project',
+  'project.title': '{name}, a project by Nicolás Giménez',
+  'project.label': 'Project',
 };
 
 const ui = { es, en } as const;
@@ -148,5 +160,9 @@ const workSegment: Record<Lang, string> = { es: 'trabajos', en: 'work' };
 export const localePath = (lang: Lang, path = '/') => (lang === defaultLang ? path : `/${lang}${path}`);
 
 export const jobPath = (lang: Lang, slug: string) => localePath(lang, `/${workSegment[lang]}/${slug}/`);
+
+const projectSegment: Record<Lang, string> = { es: 'proyectos', en: 'projects' };
+
+export const projectPath = (lang: Lang, slug: string) => localePath(lang, `/${projectSegment[lang]}/${slug}/`);
 
 export const homePath = (lang: Lang, hash = '') => `${localePath(lang, '/')}${hash}`;

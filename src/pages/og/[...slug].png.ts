@@ -1,10 +1,10 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { getJobs, slugOf } from '../../data/content';
+import { getJobs, getProjects, slugOf } from '../../data/content';
 import { getProfile, yearRange } from '../../data/profile';
 import { langs, useTranslations } from '../../i18n/ui';
 import { clip, renderOgPng, type OgCard } from '../../lib/og';
 
-// One card per page and locale: /og/es.png, /og/en.png, /og/es/<job>.png, /og/en/<job>.png.
+// One card per page and locale: /og/es.png, /og/es/<job>.png, /og/es/projects/<project>.png (same for en).
 export const getStaticPaths = (async () => {
   const paths: { params: { slug: string }; props: { card: OgCard } }[] = [];
 
@@ -36,6 +36,22 @@ export const getStaticPaths = (async () => {
             description: clip(summary),
             footer: profile.name,
             badge: yearRange(start, end),
+          },
+        },
+      });
+    }
+
+    for (const project of await getProjects(lang)) {
+      const { name, summary, year } = project.data;
+      paths.push({
+        params: { slug: `${lang}/projects/${slugOf(project)}` },
+        props: {
+          card: {
+            label: t('project.label'),
+            title: name,
+            description: clip(summary),
+            footer: profile.name,
+            badge: String(year),
           },
         },
       });
