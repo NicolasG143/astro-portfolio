@@ -2,7 +2,7 @@
 name: sushot
 year: 2026
 summary: Capturador de pantalla ultra liviano para Windows y Linux. Vive en la bandeja, responde a Impr Pant y deja la captura en el portapapeles o en un PNG. Sin editor, sin cuentas, sin red.
-stack: [Rust, Win32, X11, XDG Desktop Portal, Astro, Cloudflare Workers]
+stack: [Rust, Win32, X11, XDG Desktop Portal, Astro, Cloudflare]
 links:
   - label: Ver la landing en sushot.tuty.dev
     url: https://sushot.tuty.dev

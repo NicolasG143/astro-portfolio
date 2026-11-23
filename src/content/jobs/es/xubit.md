@@ -1,10 +1,10 @@
 ---
 company: Xubit SAS
-role: Full-Stack Developer (freelance)
+role: Software Engineer (freelance)
 start: 2025
 end: 2025
-summary: Interfaz a medida para el panel de gestión de una obra social y migración del front-end de Angular a React.
-stack: [React, TypeScript, Zod, Node.js]
+summary: Interfaz a medida para el panel de gestión de una obra social y migración del front-end de Angular a Next.js.
+stack: [Next.js, React, TypeScript, Zod, Node.js]
 ---
 
 ## El contexto
@@ -14,7 +14,7 @@ Xubit construye sistemas de gestión a medida. Trabajé en el panel de gestión 
 ## Lo que hice
 
 - **Diseñé e implementé la interfaz del panel.** Cada formulario valida sus datos con Zod, de forma exhaustiva, para que lo que entra al sistema cumpla las reglas regulatorias.
-- **Lideré la migración del front-end de Angular a React.** Rehice la aplicación completa para que sea más fácil de mantener y para que el equipo pueda sumar funcionalidades más rápido.
+- **Lideré la migración del front-end de Angular a Next.js.** Rehice la aplicación completa para que sea más fácil de mantener y para que el equipo pueda sumar funcionalidades más rápido.
 - **Refactoricé parte del back-end.** Sumé funcionalidades nuevas y reduje los errores en los flujos críticos.
 
 ## Lo que me llevo

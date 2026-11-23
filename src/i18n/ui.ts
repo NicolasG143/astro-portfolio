@@ -6,7 +6,7 @@ export const langs = Object.keys(languages) as Lang[];
 const es = {
   'meta.title': 'Nicolás Giménez, Software Engineer full-stack en Buenos Aires',
   'meta.description':
-    'Nicolás “Tuty” Giménez construye sitios y sistemas web rápidos, accesibles y fáciles de usar con Next.js, React, Node.js y Astro.',
+    'Nicolás “Tuty” Giménez construye software rápido, accesible y fácil de usar: sobre todo sitios y sistemas web, pero también apps de escritorio y la infraestructura que los sostiene.',
   skip: 'Saltar al contenido',
   'nav.main': 'Principal',
   'nav.mobile': 'Principal, móvil',
@@ -28,7 +28,7 @@ const es = {
   'cv.view': 'Ver CV',
   'cv.viewMine': 'Ver mi CV',
   'hero.body':
-    'Hago sitios y sistemas web rápidos, accesibles y fáciles de usar. Trabajo con Next.js, React, Node.js y Astro: diseño la interfaz, escribo la lógica del servidor y cuido la infraestructura que lo sostiene.',
+    'Hago software rápido, accesible y fácil de usar. La mayoría son sitios y sistemas web, pero también apps de escritorio y lo que el problema pida: diseño la interfaz, escribo la lógica y cuido la infraestructura que lo sostiene.',
   'hero.write': 'Escribime',
   'hero.social': 'Redes',
   'carousel.label': 'Trabajos destacados',
@@ -76,7 +76,7 @@ const es = {
 const en: Record<keyof typeof es, string> = {
   'meta.title': 'Nicolás Giménez, full-stack Software Engineer in Buenos Aires',
   'meta.description':
-    'Nicolás “Tuty” Giménez builds fast, accessible and easy-to-use websites and web systems with Next.js, React, Node.js and Astro.',
+    'Nicolás “Tuty” Giménez builds fast, accessible and easy-to-use software: mostly websites and web systems, but also desktop apps and the infrastructure that runs them.',
   skip: 'Skip to content',
   'nav.main': 'Main',
   'nav.mobile': 'Main, mobile',
@@ -98,7 +98,7 @@ const en: Record<keyof typeof es, string> = {
   'cv.view': 'View CV',
   'cv.viewMine': 'View my CV',
   'hero.body':
-    'I build fast, accessible and easy-to-use websites and web systems. I work with Next.js, React, Node.js and Astro: I design the interface, write the server logic and look after the infrastructure that runs it.',
+    'I build fast, accessible and easy-to-use software. Most of it is websites and web systems, but also desktop apps and whatever the problem calls for: I design the interface, write the logic and look after the infrastructure that runs it.',
   'hero.write': 'Get in touch',
   'hero.social': 'Social',
   'carousel.label': 'Featured work',

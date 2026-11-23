@@ -2,7 +2,7 @@
 name: escuelitapp
 year: 2026
 summary: Pen-and-paper school games to play with friends from your phone, no sign-up needed. Hangman with link-based challenges and La Papa in real-time drawing rooms.
-stack: [Astro, TypeScript, Cloudflare Workers, Hono, D1, Durable Objects]
+stack: [Astro, TypeScript, Hono, Cloudflare]
 links:
   - label: Play at escuelitapp.tuty.dev
     url: https://escuelitapp.tuty.dev

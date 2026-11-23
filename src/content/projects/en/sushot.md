@@ -2,7 +2,7 @@
 name: sushot
 year: 2026
 summary: An ultra-light screenshot tool for Windows and Linux. It lives in the tray, answers Print Screen and puts the capture on the clipboard or in a PNG. No editor, no account, no network.
-stack: [Rust, Win32, X11, XDG Desktop Portal, Astro, Cloudflare Workers]
+stack: [Rust, Win32, X11, XDG Desktop Portal, Astro, Cloudflare]
 links:
   - label: See the landing at sushot.tuty.dev
     url: https://sushot.tuty.dev
