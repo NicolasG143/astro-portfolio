@@ -1,6 +1,6 @@
 ---
 company: Verga Hnos. / UsáUsado
-role: Software Engineer (freelance)
+role: Full-Stack Developer (freelance)
 start: 2024
 end: 2025
 summary: A Next.js company website, a multi-step moving quote builder and a batch upload system with expert approval.

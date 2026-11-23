@@ -1,6 +1,6 @@
 ---
 company: Logística Almagro
-role: Software Engineer (freelance)
+role: Frontend Developer (freelance)
 start: 2025
 end: 2025
 summary: Rediseño completo del sitio institucional, con formulario de contacto, tracking de conversiones y SEO on-page.

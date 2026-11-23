@@ -2,7 +2,7 @@
 name: escuelitapp
 year: 2026
 summary: Juegos escolares de lápiz y papel para jugar con amigos desde el celular, sin registro. Ahorcado con desafíos por link y La Papa en salas de dibujo en tiempo real.
-stack: [Astro, TypeScript, Cloudflare Workers, Hono, D1, Durable Objects]
+stack: [Astro, TypeScript, Hono, Cloudflare]
 links:
   - label: Jugar en escuelitapp.tuty.dev
     url: https://escuelitapp.tuty.dev

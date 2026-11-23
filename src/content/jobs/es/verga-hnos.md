@@ -1,6 +1,6 @@
 ---
 company: Verga Hnos. / UsáUsado
-role: Software Engineer (freelance)
+role: Full-Stack Developer (freelance)
 start: 2024
 end: 2025
 summary: Sitio institucional con Next.js, un cotizador de mudanzas por pasos y un sistema de carga de lotes con aprobación de expertos.

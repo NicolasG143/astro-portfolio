@@ -1,6 +1,6 @@
 ---
 company: FS Digital
-role: Full-Stack Developer (freelance)
+role: Software Engineer (freelance)
 start: 2023
 end: 2025
 summary: El sitio, la wiki y el panel de cuentas del MMORPG argentino FúriusAO, y su protección contra ataques DDoS de más de 15 TB.
